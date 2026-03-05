@@ -469,41 +469,6 @@
       font-size: 18px; flex-shrink: 0;
     }
 
-    .contact-form label {
-      display: block;
-      font-size: 12px;
-      font-weight: 800;
-      color: var(--dark);
-      margin-bottom: 4px;
-    }
-    .contact-form .field + .field { margin-top: 12px; }
-    .contact-form input,
-    .contact-form textarea {
-      width: 100%;
-      padding: 8px 12px;
-      border: var(--border);
-      border-radius: 8px;
-      background: var(--white);
-      font-family: 'Nunito', sans-serif;
-      font-weight: 600;
-      font-size: 13px;
-      color: var(--dark);
-      outline: none;
-      transition: box-shadow 0.15s;
-    }
-    .contact-form input:focus,
-    .contact-form textarea:focus { box-shadow: 3px 3px 0 var(--teal); }
-    .contact-form textarea { resize: vertical; min-height: 80px; }
-    .form-footer { margin-top: 14px; display: flex; justify-content: flex-end; }
-    #contact-status {
-      margin-top: 10px;
-      font-size: 13px;
-      font-weight: 700;
-      text-align: center;
-      min-height: 20px;
-    }
-    .status-ok  { color: var(--teal-dark); }
-    .status-err { color: var(--pink-dark); }
 
     /* ─── Taskbar ────────────────────────────────────────────────── */
     #taskbar {
@@ -1054,25 +1019,6 @@
           karczag.ashley@gmail.com
         </a>
       </div>
-      <div class="divider"></div>
-      <div class="contact-form">
-        <div class="field">
-          <label for="cf-name">Your Name</label>
-          <input type="text" id="cf-name" placeholder="Ada Lovelace" />
-        </div>
-        <div class="field">
-          <label for="cf-email">Your Email</label>
-          <input type="email" id="cf-email" placeholder="ada@example.com" />
-        </div>
-        <div class="field">
-          <label for="cf-msg">Message</label>
-          <textarea id="cf-msg" placeholder="Hey! I'd love to chat about..."></textarea>
-        </div>
-        <div class="form-footer">
-          <button class="btn btn-teal" onclick="submitContact()">Send Message 🚀</button>
-        </div>
-        <div id="contact-status"></div>
-      </div>
     </div>
   </div>
 
@@ -1332,44 +1278,6 @@
   updateClock();
   setInterval(updateClock, 10000);
 
-  /* ── Contact form (Formspree) ────────────────────────────────── */
-  async function submitContact() {
-    const name    = document.getElementById('cf-name').value.trim();
-    const email   = document.getElementById('cf-email').value.trim();
-    const message = document.getElementById('cf-msg').value.trim();
-    const status  = document.getElementById('contact-status');
-
-    if (!name || !email || !message) {
-      status.textContent = 'Please fill in all fields.';
-      status.className   = 'status-err';
-      return;
-    }
-
-    status.className   = '';
-    status.textContent = 'Sending...';
-
-    try {
-      const res  = await fetch('/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email, message }),
-      });
-      const data = await res.json();
-      if (data.success) {
-        status.textContent = '✅ ' + data.message;
-        status.className   = 'status-ok';
-        document.getElementById('cf-name').value  = '';
-        document.getElementById('cf-email').value = '';
-        document.getElementById('cf-msg').value   = '';
-      } else {
-        status.textContent = data.error || 'Something went wrong.';
-        status.className   = 'status-err';
-      }
-    } catch {
-      status.textContent = 'Could not send. Please try again.';
-      status.className   = 'status-err';
-    }
-  }
 </script>
 </body>
 </html>
