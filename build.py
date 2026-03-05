@@ -12,7 +12,7 @@ with app.app_context():
         from flask import render_template
         html = render_template("index.html")
 
-with open("index.html", "w", encoding="utf-8") as f:
+with open("docs/index.html", "w", encoding="utf-8") as f:
     f.write(html)
 
-print("Built index.html for GitHub Pages (contact form excluded).")
+print("Built docs/index.html for GitHub Pages.")
